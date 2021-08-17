@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styled from "@emotion/styled";
 import { Anecdotes } from "./AnecdoteList";
+import { Box, Button, Text, Container } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { ArrowRightIcon } from "@chakra-ui/icons";
 // Users can click through anecdotes and vote on their favorite one.
-
-const NewButton = styled.button`
-  padding: 32px;
-`;
 
 const anecdotes = [
   "If it hurts, do it more often",
@@ -34,16 +32,40 @@ function App() {
   useEffect(() => {}, [votes]);
 
   return (
-    <div>
-      <NewButton onClick={next}>Next Anecdote</NewButton>
-      <NewButton onClick={vote}>Vote for this anecdote</NewButton>
+    <ChakraProvider>
+      <Container p={8} textColor="gray.600" maxW="4xl">
+        <Button onClick={vote}>Vote for this Anecdote</Button>
+        <Button
+          colorScheme="blue"
+          onClick={next}
+          ml="2"
+          rightIcon={<ArrowRightIcon />}
+        >
+          Next Anecdote
+        </Button>
 
-      <br />
+        <br />
 
-      <h1>{anecdotes[selectedAnecdote]}</h1>
+        <Text fontSize="sm" fontWeight="bold" mt={10} mb={2}>
+          CURRENT ANECDOTE:
+        </Text>
 
-      <Anecdotes votes={votes} anecdotes={anecdotes} />
-    </div>
+        <Box>
+          <Text fontSize="2xl" mb={10} fontWeight="bold">
+            {anecdotes[selectedAnecdote]}
+          </Text>
+        </Box>
+
+        <Text fontSize="sm" fontWeight="bold" mt={10} mb={2}>
+          ANECDOTES:
+        </Text>
+        <Anecdotes
+          votes={votes}
+          anecdotes={anecdotes}
+          currentAnecdote={anecdotes[selectedAnecdote]}
+        />
+      </Container>
+    </ChakraProvider>
   );
 }
 
